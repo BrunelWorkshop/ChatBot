@@ -31,7 +31,7 @@ To run the tutorial, follow these steps:
 1. Execute the following command in your terminal or command prompt:
 
     ```
-    streamlit run gpt4_integration.py
+    streamlit run chat_bot.py
     ```
 
    This command will start the Streamlit application.
