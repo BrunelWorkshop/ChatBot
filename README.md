@@ -2,7 +2,7 @@
 
 Welcome to the GPT-4 Integration Tutorial for Brunel University students! This guide will walk you through the process of integrating GPT-4 into your projects using OpenAI and Streamlit.
 
-![GPT-4 in Action](gpt4.gif)
+![GPT-4 in Action](gif/demo.gif)
 
 ## Installation
 
