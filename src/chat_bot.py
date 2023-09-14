@@ -81,11 +81,20 @@ def run_bot():
             openai.api_key = st.secrets['OPENAI_API_KEY']
 
         st.subheader('Prompt type')
-        prompt_type = st.selectbox('Select Prompt type', ['text', 'audio', 'image', 'pdf'])
+        prompt_type = st.selectbox('Select Prompt type', ['text', 'image', 'pdf'])
 
-        if prompt_type == 'text' or prompt_type == 'pdf':
+        if prompt_type == 'text':
             st.subheader('GPT Version')
             gpt_version = st.selectbox('Select GPT Version', ['gpt-3.5-turbo', 'gpt-4'])
+            token_number = st.number_input('Insert Token Max Size', min_value=1, max_value=2048, value=1, step=1)
+            temperature = st.number_input('Insert Temperature', min_value=0.1, max_value=1.0, value=0.1, step=0.1)
+            st.write('You selected:', gpt_version)
+            st.write('Token max size is:', token_number)
+            st.write('Temperature is:', temperature)
+
+        elif prompt_type == 'pdf':
+            st.subheader('Configurations')
+            gpt_version = st.selectbox('Select the Engine', ['davinci'])
             token_number = st.number_input('Insert Token Max Size', min_value=1, max_value=2048, value=1, step=1)
             temperature = st.number_input('Insert Temperature', min_value=0.1, max_value=1.0, value=0.1, step=0.1)
             st.write('You selected:', gpt_version)
@@ -95,7 +104,6 @@ def run_bot():
         elif prompt_type == 'image':
             st.subheader('Configurations')
             number_of_results = st.number_input('Insert number of results', min_value=1, max_value=5, value=1, step=1)
-
 
     if "messages" not in st.session_state:
         st.session_state.messages = []
@@ -150,7 +158,6 @@ def run_bot():
             extracted_pdf = pdf_to_text(uploaded_pdf, st)
             if prompt := st.chat_input("What is up?"):
 
-
                 st.session_state.messages.append({"role": "user", "content": f"{prompt} \n {extracted_pdf}"})
 
                 with st.chat_message("user"):
@@ -163,8 +170,7 @@ def run_bot():
 
                     for segment in text_segments:
                         response = openai.Completion.create(
-                            # model=gpt_version,
-                            engine="davinci",
+                            engine=gpt_version,
                             prompt=f"{prompt} \n{segment}",
                             max_tokens=token_number,
                             temperature=temperature,
