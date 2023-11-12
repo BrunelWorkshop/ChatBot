@@ -76,16 +76,18 @@ def run_bot():
 
     with st.sidebar:
         st.title('Brunel Chatbot')
-        if 'OPENAI_API_KEY' in st.secrets:
-            st.success('API key already loaded!', icon='✅')
-            openai.api_key = st.secrets['OPENAI_API_KEY']
+
+        api_key = st.text_input('Enter OpenAI API Key', type='password')
+        if api_key:
+            st.success('API key loaded!', icon='✅')
+            openai.api_key = api_key
 
         st.subheader('Prompt type')
         prompt_type = st.selectbox('Select Prompt type', ['text', 'image', 'pdf'])
 
         if prompt_type == 'text':
             st.subheader('GPT Version')
-            gpt_version = st.selectbox('Select GPT Version', ['gpt-3.5-turbo', 'gpt-4'])
+            gpt_version = st.selectbox('Select GPT Version', ['gpt-3.5-turbo', 'gpt-4', 'gpt-4-1106-preview', 'gpt-4-vision-preview'])
             token_number = st.number_input('Insert Token Max Size', min_value=1, max_value=2048, value=1, step=1)
             temperature = st.number_input('Insert Temperature', min_value=0.1, max_value=1.0, value=0.1, step=0.1)
             st.write('You selected:', gpt_version)
